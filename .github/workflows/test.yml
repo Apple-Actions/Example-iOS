@@ -9,7 +9,7 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: macOS-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: Apple-Actions/import-codesign-certs@v1
       with:
         p12-file-base64: ${{ secrets.CERTIFICATES_FILE_BASE64 }}
