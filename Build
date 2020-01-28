@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd ./Example-iOS || exit
+
+xcrun xcodebuild \
+    -scheme 'Example-iOS' \
+    -configuration Release \
+    -sdk iphoneos \
+    archive

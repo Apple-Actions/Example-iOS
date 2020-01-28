@@ -8,9 +8,11 @@ on: # rebuild any PRs and main branch changes
 jobs:
   build: # make sure build/ci work properly
     runs-on: macOS-latest
+    timeout-minutes: 30
     steps:
     - uses: actions/checkout@v2
     - uses: Apple-Actions/import-codesign-certs@v1
       with:
         p12-file-base64: ${{ secrets.CERTIFICATES_FILE_BASE64 }}
         p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+    - run: ./Build
