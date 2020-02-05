@@ -6,7 +6,4 @@ xcrun xcodebuild \
     -scheme 'Example-iOS' \
     -configuration Release \
     -sdk iphoneos \
-    archive \
-    PROVISIONING_PROFILE_SPECIFIER=02e189cc-7d3a-45d5-be7f-2edea178ba56 \
-    CODE_SIGN_STYLE=Manual \
-    CODE_SIGN_IDENTITY="Apple Distribution"
+    archive
