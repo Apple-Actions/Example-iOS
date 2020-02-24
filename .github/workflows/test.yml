@@ -27,3 +27,9 @@ jobs:
       with:
         token: ${{ secrets.github_token }}
     - run: ./Build
+    - uses: Apple-Actions/upload-testflight-build@master
+      with:
+        app-path: .build/Artifacts/Example-iOS.ipa/Example-iOS.ipa
+        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
