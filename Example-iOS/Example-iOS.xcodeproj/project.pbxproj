@@ -13,7 +13,8 @@
 		A731AC8B23E01F830090DE52 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A731AC8923E01F830090DE52 /* Main.storyboard */; };
 		A731AC8D23E01F850090DE52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A731AC8C23E01F850090DE52 /* Assets.xcassets */; };
 		A731AC9023E01F850090DE52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A731AC8E23E01F850090DE52 /* LaunchScreen.storyboard */; };
-		A731AC9B23E01F850090DE52 /* Example_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731AC9A23E01F850090DE52 /* Example_iOSTests.swift */; };
+		A731AC9B23E01F850090DE52 /* FibonacciTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A731AC9A23E01F850090DE52 /* FibonacciTests.swift */; };
+		A7FEE32D241205E100B8F42D /* Fibonacci.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FEE32C241205E100B8F42D /* Fibonacci.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,8 +37,9 @@
 		A731AC8F23E01F850090DE52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A731AC9123E01F850090DE52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A731AC9623E01F850090DE52 /* Example-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Example-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A731AC9A23E01F850090DE52 /* Example_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Example_iOSTests.swift; sourceTree = "<group>"; };
+		A731AC9A23E01F850090DE52 /* FibonacciTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FibonacciTests.swift; sourceTree = "<group>"; };
 		A731AC9C23E01F850090DE52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7FEE32C241205E100B8F42D /* Fibonacci.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fibonacci.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				A731AC8C23E01F850090DE52 /* Assets.xcassets */,
 				A731AC8E23E01F850090DE52 /* LaunchScreen.storyboard */,
 				A731AC9123E01F850090DE52 /* Info.plist */,
+				A7FEE32C241205E100B8F42D /* Fibonacci.swift */,
 			);
 			path = "Example-iOS";
 			sourceTree = "<group>";
@@ -93,7 +96,7 @@
 		A731AC9923E01F850090DE52 /* Example-iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				A731AC9A23E01F850090DE52 /* Example_iOSTests.swift */,
+				A731AC9A23E01F850090DE52 /* FibonacciTests.swift */,
 				A731AC9C23E01F850090DE52 /* Info.plist */,
 			);
 			path = "Example-iOSTests";
@@ -200,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7FEE32D241205E100B8F42D /* Fibonacci.swift in Sources */,
 				A731AC8823E01F830090DE52 /* ViewController.swift in Sources */,
 				A731AC8423E01F830090DE52 /* AppDelegate.swift in Sources */,
 				A731AC8623E01F830090DE52 /* SceneDelegate.swift in Sources */,
@@ -210,7 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A731AC9B23E01F850090DE52 /* Example_iOSTests.swift in Sources */,
+				A731AC9B23E01F850090DE52 /* FibonacciTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +405,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ER9FN723RR;
-				INFOPLIST_FILE = "Example iOSTests/Info.plist";
+				INFOPLIST_FILE = "Example-iOSTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,7 +427,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ER9FN723RR;
-				INFOPLIST_FILE = "Example iOSTests/Info.plist";
+				INFOPLIST_FILE = "Example-iOSTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
