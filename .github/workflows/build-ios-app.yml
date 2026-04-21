@@ -65,7 +65,7 @@ jobs:
           zip-archive: true
 
       - name: Upload Logs
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: ${{ failure() || cancelled() }}
         with:
           name: logs
