@@ -1,35 +1,86 @@
-name: "build-test"
-on: # rebuild any PRs and main branch changes
-  pull_request:
+name: build-ios-app
+
+run-name: Build for iOS
+
+on:
   push:
     branches:
-      - master
+      - "**"
+
+concurrency:
+  group: ${{ github.ref }}-ios
+  cancel-in-progress: true
 
 jobs:
-  build: # make sure build/ci work properly
-    runs-on: macOS-latest
+  build_ios:
+    runs-on: macos-26
     timeout-minutes: 30
     steps:
-    - uses: actions/checkout@v2
-    - uses: Apple-Actions/import-codesign-certs@v1
-      with:
-        p12-file-base64: ${{ secrets.CERTIFICATES_FILE_BASE64 }}
-        p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
-    - uses: Apple-Actions/download-provisioning-profiles@v1
-      with:
-        bundle-id: codes.orj.Example-iOS
-        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
-        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
-    - name: "#️⃣ Generate Build Number"
-      id: buildnumber
-      uses: einaregilsson/build-number@v2
-      with:
-        token: ${{ secrets.github_token }}
-    - run: ./Build
-    - uses: Apple-Actions/upload-testflight-build@master
-      with:
-        app-path: .build/Artifacts/Example-iOS.ipa/Example-iOS.ipa
-        issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
-        api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
-        api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+      - name: Checkout Code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
+        with:
+          xcode-version: "~16.4.0"
+
+      - name: Import Code Signing Certificates
+        if: github.ref == 'refs/heads/prod'
+        uses: Apple-Actions/import-codesign-certs@b610f78488812c1e56b20e6df63ec42d833f2d14 # v6.0.0
+        with:
+          p12-file-base64: ${{ secrets.APPSTORE_CERTIFICATES_FILE_BASE64 }}
+          p12-password: ${{ secrets.APPSTORE_CERTIFICATES_PASSWORD }}
+
+      - name: Download Provisioning Profiles
+        if: github.ref == 'refs/heads/prod'
+        uses: Apple-Actions/download-provisioning-profiles@f34313de00852cf9b8852f6947c344293e0aa704 # v5.0.0
+        with:
+          bundle-id: "codes.orj.Example-iOS"
+          issuer-id: ${{ vars.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ vars.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+      - name: Build
+        if: github.ref != 'refs/heads/prod'
+        uses: Apple-Actions/xcodebuild@11ec9cc36bf24d0c61261d2155c0fcc0545f8e5f # v1.0.0
+        with:
+          workspace: Example-iOS.xcworkspace
+          scheme: Example-iOS
+          sdk: iphonesimulator
+          build-number: ${{ github.run_number }}
+          zip-result-bundle: true
+
+      - name: Build Signed
+        if: github.ref == 'refs/heads/prod'
+        uses: Apple-Actions/xcodebuild@11ec9cc36bf24d0c61261d2155c0fcc0545f8e5f # v1.0.0
+        with:
+          workspace: Example-iOS.xcworkspace
+          scheme: Example-iOS
+          sdk: iphoneos
+          action: archive
+          archive-path: .build/Archives/Example-iOS.xcarchive
+          export-options-plist: Support/ExportOptions.plist
+          build-number: ${{ github.run_number }}
+          zip-result-bundle: true
+          zip-archive: true
+
+      - name: Upload Logs
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: ${{ failure() || cancelled() }}
+        with:
+          name: logs
+          include-hidden-files: true
+          path: .build/*.log
+          if-no-files-found: error
+
+      - name: Upload TestFlight Build
+        if: github.ref == 'refs/heads/prod'
+        uses: Apple-Actions/upload-testflight-build@9fd28d4e690396e43caca69cef54cccccce77034 # v3.0.1
+        env:
+          CURRENT_PROJECT_VERSION: ${{ github.run_number }}
+          PRODUCT_BUNDLE_IDENTIFIER: "codes.orj.Example-iOS"
+        with:
+          app-path: ".build/Artifacts/Example-iOS.ipa/Example-iOS.ipa"
+          issuer-id: ${{ vars.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ vars.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
